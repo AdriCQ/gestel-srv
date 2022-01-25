@@ -1,0 +1,13 @@
+{
+    "name": "Gestel",
+    "alias": "gestel",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Gestel\\Providers\\GestelServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

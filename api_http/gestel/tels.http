@@ -1,0 +1,78 @@
+#############################
+### Gestel Telefonos
+#############################
+
+###
+# List
+###
+GET /api/gestel/tels
+Host: {{host}}
+
+###
+# Create
+###
+POST /api/gestel/tels
+Host: {{host}}
+Authorization: {{token}}
+
+{
+  "tel":"55555",
+  "servicio":"AUTOMATICO",
+  "tipo":"PRIVADO,PUBLICO",
+  "presupuesto":28000,
+  "cargo_id":1
+}
+
+###
+# Get
+###
+GET /api/gestel/tels/1
+Host: {{host}}
+
+
+###
+# Search
+###
+GET /api/gestel/tels/search
+Host: {{host}}
+
+{
+  "search": "ss",
+  "type": "departamento"
+}
+###
+# Create
+###
+POST /api/gestel/tels
+Host: {{host}}
+Authorization: {{token}}
+
+{
+  "servicio":"AUTOMATICO",
+  "tipo":"PRIVADO",
+  "presupuesto":28000,
+  "cargo_id":1,
+  "tel": "557812",
+  "comentario":"comment"
+}
+
+###
+# Update
+###
+PUT /api/gestel/tels/1
+Host: {{host}}
+Authorization: {{token}}
+
+{
+  "servicio":"AUTOMATICO",
+  "tipo":"PRIVADO,PUBLICO",
+  "presupuesto":28000,
+  "cargo_id":1
+}
+
+###
+# Remove
+###
+DELETE  /api/gestel/tels/1
+Host: {{host}}
+Authorization: {{token}}

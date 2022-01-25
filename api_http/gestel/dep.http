@@ -1,0 +1,15 @@
+#############################
+### Gestel Departamentos
+#############################
+
+###
+# List
+###
+GET /api/gestel/dep
+Host: {{host}}
+
+###
+# find
+###
+GET /api/gestel/dep/1
+Host: {{host}}

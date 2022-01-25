@@ -1,0 +1,21 @@
+{
+  "name": "adricq/gestel",
+  "description": "",
+  "authors": [
+    {
+      "name": "Adrian Capote Quintana",
+      "email": "adrian.capote95@zoho.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {}
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\Gestel\\": ""
+    }
+  }
+}

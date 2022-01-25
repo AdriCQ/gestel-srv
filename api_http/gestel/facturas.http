@@ -1,0 +1,8 @@
+GET /api/gestel/facturas
+Host: {{host}}
+
+###
+#
+###
+POST /api/gestel/facturas
+Host: {{host}}

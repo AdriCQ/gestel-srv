@@ -1,0 +1,2 @@
+GET /sanctum/csrf-cookie HTTP/1.1
+Host: {{ host }}

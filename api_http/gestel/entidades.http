@@ -1,0 +1,19 @@
+#############################
+### Gestel Entidades
+#############################
+
+###
+# List
+###
+GET /api/gestel/entidades
+Host: {{host}}
+
+{
+  "deep":true
+}
+
+###
+# find
+###
+GET /api/gestel/entidades/1
+Host: {{host}}
