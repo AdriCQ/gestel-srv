@@ -105,6 +105,10 @@ class GestelDatabaseSeeder extends Seeder
           'servicio' => $faker->randomElement(['AUTOMATICO', 'EXTENSION']),
           'tipo' => $faker->randomElement(['PRIVADO', 'PUBLICO']),
           'presupuesto' => $faker->randomFloat(2, 1, 1000),
+          'config' => json_encode([
+            'comprado' => $faker->boolean,
+            'entregado' => $faker->boolean
+          ])
         ]);
       }
       Tel::query()->insert($data);

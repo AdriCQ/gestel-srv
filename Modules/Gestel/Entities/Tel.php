@@ -11,6 +11,7 @@ class Tel extends Model
 
   protected $table = 'gestel_tels';
   protected $guarded = ['id'];
+  protected $casts = ['config' => 'object'];
   public $timestamps = false;
 
   /**

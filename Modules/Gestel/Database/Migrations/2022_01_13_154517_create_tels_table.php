@@ -20,6 +20,8 @@ class CreateTelsTable extends Migration
       $table->string('tipo')->default('PRIVADO');
       $table->string('comentario')->nullable();
       $table->unsignedDecimal('presupuesto', 8, 2)->default(0);
+      $table->json('config')->default(json_encode(['comprado' => false, 'entregado' => false]));
+
       $table->timestamp('fecha_alta')->default(now());
       $table->timestamp('fecha_baja')->nullable();
       $table->foreignId('cargo_id')->constrained('gestel_cargos')->onDelete('cascade');
