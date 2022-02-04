@@ -3,7 +3,10 @@
 namespace Modules\Gestel\Imports;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Modules\Gestel\Entities\TelAutoFactura;
@@ -11,7 +14,7 @@ use Modules\Gestel\Entities\TelAutoFactura;
 /**
  * 
  */
-class TelAutoFacturaImport implements ToModel, WithStartRow, WithCustomCsvSettings
+class TelAutoFacturaImport implements ToModel, WithStartRow, WithCustomCsvSettings, WithChunkReading, WithBatchInserts, ShouldQueue
 {
 
   private $year = null;
@@ -53,5 +56,19 @@ class TelAutoFacturaImport implements ToModel, WithStartRow, WithCustomCsvSettin
       'dest' => $row[7],
       'slla' => $row[8],
     ]);
+  }
+  /**
+   * 
+   */
+  public function chunkSize(): int
+  {
+    return 1000;
+  }
+  /**
+   * 
+   */
+  public function batchSize(): int
+  {
+    return 1000;
   }
 }

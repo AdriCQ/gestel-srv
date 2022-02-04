@@ -10,6 +10,7 @@ use Modules\Gestel\Entities\Departamento;
 use Modules\Gestel\Entities\Entidad;
 use Modules\Gestel\Entities\Lugar;
 use Modules\Gestel\Entities\Tel;
+use Modules\Gestel\Entities\TelAutoFactura;
 
 class TelController extends Controller
 {
@@ -21,7 +22,7 @@ class TelController extends Controller
   public function create(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'tel' => ['required', 'string', 'unique:gestel_tels'],
+      'telf' => ['required', 'string', 'unique:gestel_tels'],
       'servicio' => ['required', 'in:AUTOMATICO,EXTENSION'],
       'tipo' => ['required', 'in:PRIVADO,PUBLICO'],
       'presupuesto' => ['required', 'numeric'],
@@ -52,6 +53,35 @@ class TelController extends Controller
     return $this->sendResponse(Tel::all());
   }
 
+  /**
+   * Pasados
+   * @param Request request
+   * @return Illuminate\Http\JsonResponse
+   */
+  public function telPasados(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'mes' => ['required', 'integer'],
+      'year' => ['required', 'integer'],
+    ]);
+    if ($validator->fails()) {
+      return $this->sendError($validator->errors()->toArray(), []);
+    }
+    $validator = $validator->validate();
+    // TODO: Optimize query
+    $tels = Tel::query()->get(['id', 'telf', 'presupuesto'])->toArray();
+    $pasados = [];
+    foreach ($tels as $tel) {
+      $preloadFind = TelAutoFactura::preloadFind($tel['telf'], $validator['mes'], $validator['year']);
+      if ($preloadFind) {
+        if ($preloadFind['total_importe'] > $tel['presupuesto']) {
+          $tel['dif'] = $preloadFind['total_importe'] - $tel['presupuesto'];
+          array_push($pasados, $tel);
+        }
+      }
+    }
+    return $this->sendResponse($pasados);
+  }
   /**
    * Remove
    * @return Illuminate\Http\JsonResponse
@@ -114,7 +144,7 @@ class TelController extends Controller
             ['Tels']
           );
       }
-      $lugQry = Lugar::query()->where('nombre', 'like', '%' . $validator['search'] . '%');
+      // $lugQry = Lugar::query()->where('nombre', 'like', '%' . $validator['search'] . '%');
       $entQry = Entidad::query()->where('nombre', 'like', '%' . $validator['search'] . '%');
       return $this->sendResponse([], ['No Data']);
     }

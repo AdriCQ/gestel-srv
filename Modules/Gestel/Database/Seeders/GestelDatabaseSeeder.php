@@ -22,9 +22,9 @@ class GestelDatabaseSeeder extends Seeder
     // Model::unguard();
     $this->seedEntidades();
     $this->seedLugares();
-    $this->seedDepartamentos(10, 5);
-    $this->seedCargos(10, 10);
-    $this->seedTels(10, 10);
+    $this->seedDepartamentos();
+    $this->seedCargos();
+    // $this->seedTels(10, 10);
   }
   /**
    * seedCargos
@@ -101,7 +101,7 @@ class GestelDatabaseSeeder extends Seeder
       for ($r = 0; $r < $repeats; $r++) {
         array_push($data, [
           'cargo_id' => $faker->numberBetween(1, Cargo::query()->count()),
-          'tel' => $faker->phoneNumber(),
+          'telf' => $faker->phoneNumber(),
           'servicio' => $faker->randomElement(['AUTOMATICO', 'EXTENSION']),
           'tipo' => $faker->randomElement(['PRIVADO', 'PUBLICO']),
           'presupuesto' => $faker->randomFloat(2, 1, 1000),

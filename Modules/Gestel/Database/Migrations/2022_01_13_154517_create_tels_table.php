@@ -15,7 +15,7 @@ class CreateTelsTable extends Migration
   {
     Schema::create('gestel_tels', function (Blueprint $table) {
       $table->id();
-      $table->string('tel')->unique();
+      $table->string('telf')->unique();
       $table->string('servicio')->default('AUTOMATICO');
       $table->string('tipo')->default('PRIVADO');
       $table->string('comentario')->nullable();

@@ -3,44 +3,6 @@
 #############################
 
 ###
-# List
-###
-GET /api/gestel/tels
-Host: {{host}}
-
-###
-# Create
-###
-POST /api/gestel/tels
-Host: {{host}}
-Authorization: {{token}}
-
-{
-  "tel":"55555",
-  "servicio":"AUTOMATICO",
-  "tipo":"PRIVADO,PUBLICO",
-  "presupuesto":28000,
-  "cargo_id":1
-}
-
-###
-# Get
-###
-GET /api/gestel/tels/1
-Host: {{host}}
-
-
-###
-# Search
-###
-GET /api/gestel/tels/search
-Host: {{host}}
-
-{
-  "search": "ss",
-  "type": "departamento"
-}
-###
 # Create
 ###
 POST /api/gestel/tels
@@ -52,8 +14,50 @@ Authorization: {{token}}
   "tipo":"PRIVADO",
   "presupuesto":28000,
   "cargo_id":1,
-  "tel": "557812",
+  "telf": "557812",
   "comentario":"comment"
+}
+
+###
+# Get
+###
+GET /api/gestel/tels/1
+Host: {{host}}
+
+###
+# List
+###
+GET /api/gestel/tels
+Host: {{host}}
+
+###
+# Pasados
+###
+GET /api/gestel/tels/pasados
+Host: {{host}}
+Authorization: {{token}}
+
+{
+  "mes":1,
+  "year":2022
+}
+
+###
+# Remove
+###
+DELETE  /api/gestel/tels/1
+Host: {{host}}
+Authorization: {{token}}
+
+###
+# Search
+###
+GET /api/gestel/tels/search
+Host: {{host}}
+
+{
+  "search": "43251192",
+  "type": "tel"
 }
 
 ###
@@ -69,10 +73,3 @@ Authorization: {{token}}
   "presupuesto":28000,
   "cargo_id":1
 }
-
-###
-# Remove
-###
-DELETE  /api/gestel/tels/1
-Host: {{host}}
-Authorization: {{token}}

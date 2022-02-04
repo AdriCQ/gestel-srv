@@ -1,0 +1,22 @@
+#############################
+### Gestel Stats
+#############################
+
+GET /api/gestel/stats/preload
+Host: {{host}}
+
+{
+  "mes":1,
+  "year":2022
+}
+
+###
+# Pasados
+###
+GET /api/gestel/stats/pasados
+Host: {{host}}
+
+{
+  "mes":1,
+  "year":2022
+}

@@ -8,5 +8,6 @@ Route::prefix('/gestel')->group(function () {
   Route::prefix('/dep')->group(__DIR__ . '/apis/dep.php');
   Route::prefix('/entidades')->group(__DIR__ . '/apis/entidades.php');
   Route::prefix('/facturas')->group(__DIR__ . '/apis/facturas.php');
+  Route::prefix('/stats')->group(__DIR__ . '/apis/stats.php');
   Route::prefix('/tels')->group(__DIR__ . '/apis/tels.php');
 });

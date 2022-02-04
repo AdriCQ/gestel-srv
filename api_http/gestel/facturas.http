@@ -31,3 +31,14 @@ Host: {{host}}
 ###
 POST /api/gestel/facturas
 Host: {{host}}
+
+###
+# Get Tels
+###
+GET /api/gestel/facturas/etecsa
+Host: {{host}}
+
+{
+  "mes": 1,
+  "year":2022
+}
