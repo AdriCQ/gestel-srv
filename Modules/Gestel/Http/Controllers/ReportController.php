@@ -2,16 +2,17 @@
 
 namespace Modules\Gestel\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use Modules\Gestel\Entities\Tel;
 use Modules\Gestel\Entities\TelAutoFactura;
 
-class StatsController extends Controller
+class ReportController extends Controller
 {
   /**
-   * Pasados
+   * telPasados
    * @param Request request
    * @return Illuminate\Http\JsonResponse
    */
@@ -20,42 +21,34 @@ class StatsController extends Controller
     $validator = Validator::make($request->all(), [
       'mes' => ['required', 'integer'],
       'year' => ['required', 'integer'],
-      'report' => ['nullable', 'boolean'],
     ]);
     if ($validator->fails()) {
-      return $this->sendError($validator->errors()->toArray(), []);
+      return $this->sendError($validator->errors()->toArray(), ['Los datos no son correctos']);
     }
     $validator = $validator->validate();
-    // TODO: Optimize query
-    $tels = Tel::query()->get(['id', 'telf', 'presupuesto'])->toArray();
+    $tels = Tel::query()->with(['cargo', 'cargo.departamento', 'cargo.departamento.entidad'])->get()->toArray();
     $pasados = [];
+    $totalSobregiro = 0;
+    $counterTels = 0;
     foreach ($tels as $tel) {
       $preloadFind = TelAutoFactura::preloadFind($tel['telf'], $validator['mes'], $validator['year']);
       if ($preloadFind) {
         if ($preloadFind['total_importe'] > $tel['presupuesto']) {
           // if ($preloadFind['total_importe'] > 850) {
           $tel['dif'] = $preloadFind['total_importe'] - $tel['presupuesto'];
+          $totalSobregiro += $tel['dif'];
+          $counterTels++;
           array_push($pasados, $tel);
         }
       }
     }
-    $this->sendResponse($pasados);
-  }
-  /**
-   * Preload
-   * @param Request request
-   * @return Illuminate\Http\JsonResponse
-   */
-  public function preload(Request $request)
-  {
-    $validator = Validator::make($request->all(), [
-      'mes' => ['required', 'integer'],
-      'year' => ['required', 'integer'],
+    $pdf = Pdf::loadView('gestel::reports.sobregiro', [
+      'tels' => $pasados,
+      'mes' => $validator['mes'],
+      'year' => $validator['year'],
+      'totalSobregiro' => $totalSobregiro,
+      'counterTels' => $counterTels
     ]);
-    if ($validator->fails()) {
-      return $this->sendError($validator->errors()->toArray(), []);
-    }
-    $validator = $validator->validate();
-    return $this->sendResponse(TelAutoFactura::preload($validator['mes'], $validator['year']));
+    return $pdf->download('Reporte-Sobregiro-' . $validator['mes'] . '-' . $validator['year'] . '.pdf');
   }
 }
