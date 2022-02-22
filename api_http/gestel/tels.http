@@ -56,7 +56,7 @@ GET /api/gestel/tels/search
 Host: {{host}}
 
 {
-  "search": "43251192",
+  "search": "43",
   "type": "tel"
 }
 

@@ -140,7 +140,7 @@ class TelController extends Controller
           );
         default:
           return $this->sendResponse(
-            $qry->where('tel', 'like', '%' . $validator['search'] . '%')->with(['cargo', 'cargo.departamento', 'cargo.departamento.entidad', 'cargo.departamento.lugar'])->get(),
+            $qry->where('telf', 'like', '%' . $validator['search'] . '%')->with(['cargo', 'cargo.departamento', 'cargo.departamento.entidad', 'cargo.departamento.lugar'])->get(),
             ['Tels']
           );
       }

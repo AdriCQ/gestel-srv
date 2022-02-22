@@ -5,6 +5,7 @@ namespace Modules\Gestel\Database\Seeders;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Modules\Gestel\Entities\Cargo;
+use Modules\Gestel\Entities\CentroPago;
 use Modules\Gestel\Entities\Departamento;
 use Modules\Gestel\Entities\Entidad;
 use Modules\Gestel\Entities\Lugar;
@@ -20,6 +21,7 @@ class GestelDatabaseSeeder extends Seeder
   public function run()
   {
     // Model::unguard();
+    $this->seedCentroPagos();
     $this->seedEntidades();
     $this->seedLugares();
     $this->seedDepartamentos();
@@ -41,6 +43,22 @@ class GestelDatabaseSeeder extends Seeder
         ]);
       }
       Cargo::query()->insert($data);
+    }
+  }
+  /**
+   * seedCentroPagos
+   */
+  private function seedCentroPagos(int $limit = 10, int $repeats = 1)
+  {
+    $faker = Factory::create();
+    for ($l = 0; $l < $limit; $l++) {
+      $data = [];
+      for ($r = 0; $r < $repeats; $r++) {
+        array_push($data, [
+          'nombre' => strtoupper($faker->name()),
+        ]);
+      }
+      CentroPago::query()->insert($data);
     }
   }
   /**
@@ -71,7 +89,8 @@ class GestelDatabaseSeeder extends Seeder
     for ($i = 0; $i < 10; $i++) {
       array_push($data, [
         'nombre' => strtoupper($faker->word()),
-        'tipo' => 'MININT'
+        'tipo' => 'MININT',
+        'centro_pago_id' => $faker->numberBetween(1, CentroPago::query()->count())
       ]);
     }
     Entidad::query()->insert($data);

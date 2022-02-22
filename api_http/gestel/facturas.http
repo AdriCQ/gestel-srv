@@ -1,35 +1,18 @@
+
+#############################
+### Gestel Facturas
+#############################
+
+###
+# List
+###
 GET /api/gestel/facturas
 Host: {{host}}
 
 ###
-#
+# Seed
 ###
-GET /api/gestel/facturas/1
-Host: {{host}}
-
-###
-#
-###
-GET /api/gestel/facturas/1/get
-Host: {{host}}
-
-{
-  "csv": "1010000000244.csv"
-}
-
-###
-# TEsts
-###
-GET /api/gestel/facturas/1/test
-Host: {{host}}
-
-{
-  "csv": "10100000091.csv"
-}
-###
-#
-###
-POST /api/gestel/facturas
+GET /api/gestel/facturas/seed
 Host: {{host}}
 
 ###

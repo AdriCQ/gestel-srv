@@ -14,27 +14,15 @@ use ZanySoft\Zip\Zip;
 
 class FacturaController extends Controller
 {
-
   /**
-   * SeedTest
+   * List
    * @return Illuminate\Http\JsonResponse
    */
-  public function seedTest()
+  public function list()
   {
-    $telf = TelAutoFactura::query()->groupBy('telf')->get('telf')->toArray();
-    foreach ($telf as $tel) {
-      if (!Tel::query()->where('telf', $tel['telf'])->count()) {
-        Tel::query()->insert([
-          'telf' => $tel['telf'],
-          'presupuesto' => 200,
-          'cargo_id' => 1
-        ]);
-      }
-    }
-
-    return $this->sendResponse(Tel::query()->count());
+    $qry = TelAutoFactura::query()->groupBy('mes', 'year')->selectRaw('mes,year, sum(importe) as total_importe')->get();
+    return $this->sendResponse($qry);
   }
-
   /**
    * Tels
    * @param Request request
@@ -106,5 +94,29 @@ class FacturaController extends Controller
       Excel::import(new TelAutoFacturaImport($validator['mes'], $validator['year']), storage_path('app/' . $import));
     }
     return $this->sendResponse($filesToImport);
+  }
+
+  /**
+   * -----------------------------------------
+   *	Helpers
+   * -----------------------------------------
+   */
+
+  /**
+   * SeedTest
+   */
+  public function seedTest()
+  {
+    $telf = TelAutoFactura::query()->groupBy('telf')->get('telf')->toArray();
+    foreach ($telf as $tel) {
+      if (!Tel::query()->where('telf', $tel['telf'])->count()) {
+        Tel::query()->insert([
+          'telf' => $tel['telf'],
+          'presupuesto' => 200,
+          'cargo_id' => 1
+        ]);
+      }
+    }
+    return $this->sendResponse(Tel::query()->count());
   }
 }

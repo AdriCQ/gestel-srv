@@ -32,6 +32,7 @@ class StatsController extends Controller
       $preloadFind = TelAutoFactura::preloadFind($tel['telf'], $validator['mes'], $validator['year']);
       if ($preloadFind) {
         if ($preloadFind['total_importe'] > $tel['presupuesto']) {
+          // if ($preloadFind['total_importe'] > 850) {
           $tel['dif'] = $preloadFind['total_importe'] - $tel['presupuesto'];
           array_push($pasados, $tel);
         }
